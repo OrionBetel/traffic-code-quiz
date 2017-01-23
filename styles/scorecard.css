@@ -1,0 +1,28 @@
+.scorecard__item {
+  margin-bottom: 1em;
+}
+
+.scorecard__correct {
+  color: green;
+}
+
+.scorecard__incorrect {
+  color: red;
+}
+
+.scorecard__time {
+  color: darkorange;
+}
+
+.scorecard__result {
+  color: whitesmoke;
+  font-weight: 700;
+}
+
+.scorecard__result_success {
+  background-color: limegreen;
+}
+
+.scorecard__result_fail {
+  background-color: red;
+}

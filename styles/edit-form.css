@@ -1,0 +1,64 @@
+.edit-form__item {
+  display: block;
+  width: 100%;
+  margin: 0;
+  margin-bottom: 1em;
+  padding: 0;
+  text-align: center;
+}
+
+.edit-form__item_list {
+  list-style-type: none;
+  counter-reset: answer;
+}
+
+.edit-form__title {
+  display: block;
+  font-weight: 700;
+}
+
+.edit-form__textarea {
+  border: 2px solid cornflowerblue;
+  border-radius: 4px;
+  padding: 5px;
+  font-family: inherit;
+  font-size: 1em;
+}
+
+.edit-form__textarea_answer {
+  position: relative;
+  z-index: 3;
+  background-color: transparent;
+}
+
+.edit-form__answer {
+  position: relative;
+}
+
+.edit-form__answer:before,
+.edit-form__answer::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  margin-top: -14px;
+  margin-left: -12px;
+  font-size: 3em;
+  font-weight: 700;
+  color: lightgrey;
+  counter-increment: answer;
+  content: counter(answer);
+}
+
+.edit-form__answer:after,
+.edit-form__answer::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 85.143%;
+  height: 91%;
+  margin-left: 7.4%;
+  background-color: white;
+  content: '';
+}

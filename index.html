@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Тести ПДР України</title>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+  <script src="libraries/html5shiv.min.js"></script>
+  <script src="libraries/lodash.min.js"></script>
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto|Ruslan+Display&amp;subset=cyrillic" 
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="styles/dist/style.min.css">
+  <link rel="stylesheet" href="styles/fontello/css/fontello.css">
+
+  <!--TEMPLATES START-->
+  <script type="text/template" data-name="Selector">
+    <span class="selector-title">1. Виберіть видання</span>
+    <input type="radio" class="input-radio" name="set" id="set-kyiv" value="kyiv">
+    <label class="custom-radio" for="set-kyiv">AB Київ 5-те видання</label>
+    <input type="radio" class="input-radio" name="set" id="set-kharkiv" value="kharkiv">
+    <label class="custom-radio" for="set-kharkiv">AB Харків 14-те видання</label>
+    <div class="options-container" id="options-container">
+      <label class="selector-title" for="quiz-selector">2. Виберіть білет</label>
+      <% if (randomButton) { %>
+        <button type="button" class="button" id="random-quiz">Випадковий білет</button>
+      <% } %>
+      <button type="button" class="button" id="prev-quiz">Попередній білет</button>
+      <select class="selector-options" id="quiz-selector"></select>
+      <button type="button" class="button" id="next-quiz">Наступний білет</button>
+      <br><br>
+      <span class="button" id="tempor">
+        <%= randomButton ? 'Почати тест' : 'Редагувати' %>
+      </span>
+    </div>
+  </script>
+
+  <script type="text/template" data-name="QuestionsList">
+    <% var passOrEdit = null; %>
+    <% if (timer) { %>
+      <span class="timer" id="timer">
+        <span id="minutes"></span>:<span id="seconds"></span>
+      </span>
+    <% passOrEdit = 'concrete-quiz'; %>
+    <% } else { %>
+    <% passOrEdit = 'edit-quiz'; %>
+    <% } %>
+
+    <ul class="questions-list" id="questions-list" data-skip-button="true">
+      <% quiz.forEach( function(question) { %>
+        <li class="questions-list__item">
+          <a class="questions-list__link" href="#!<%= router.reverse(passOrEdit, {
+              set: set, 
+              number: number,
+              id: question.questionNumber
+            }) %>">
+            <%= question.questionNumber %>
+          </a>
+        </li>
+      <% } ); %>
+    </ul>
+
+    <div id="question"></div>
+  </script>
+
+  <script type="text/template" data-name="Question">
+    <p class="question-title"><%= question.question %></p>
+    <% if (question.image) { %>
+      <img src="<%= question.image %>">
+    <% } %>
+    <div id="options">
+      <% question.answers.forEach(function(answer, index){ %>
+      <input class="input-radio" type="radio" name="<%= question.questionNumber %>" value="<%= index %>" id="<%= index %>">
+        <label class="custom-radio <%= answer.indexOf('images') + 1 ? 'custom-radio_image' : 'custom-radio_block' %>" for="<%= index %>">
+          <% if (answer.indexOf('images') + 1) { %>
+            <img src="<%= answer %>">
+          <% } else { %>
+            <%= answer %>
+          <% } %>
+        </label>
+      <% }); %>
+    </div>
+    <br>
+    <button type="button" class="button" id="skipButton">Пропустити</button>
+  </script>
+
+  <script type="text/template" data-name="Scorecard">
+    <div class="scorecard__item">
+      Правильних відповідей: <span class="scorecard__correct"><%= userAnswers.correct %></span>.
+      Це <span class="scorecard__correct"><%= userAnswers.correct / userAnswers.total * 100 %></span>% від всіх відповідей.
+    </div>
+    <div class="scorecard__item">
+      Неправильних відповідей:
+      <span class="scorecard__incorrect"><%= userAnswers.incorrect %></span>.
+      Це <span class="scorecard__incorrect"><%= userAnswers.incorrect / userAnswers.total * 100 %></span>% від всіх відповідей.
+    </div>
+    <% if (userAnswers.time != '19:60') { %>
+      <div class="scorecard__item">
+        Тест пройдено за <span class="scorecard__time"><%= userAnswers.time %></span>.
+      </div>
+    <% } %>
+    <div class="scorecard__item">
+      Тест <span class="scorecard__result <%= userAnswers.incorrect > 2 ? 'scorecard__result_fail' : 'scorecard__result_success' %>"><%= userAnswers.incorrect > 2 ? 'не пройдено' : 'пройдено' %></span>.
+    </div>
+    <a class="button" href="#!<%= router.reverse('quiz') %>">Повернутись до вибору режиму</a>
+  </script>
+
+  <script type="text/template" data-name="EnterForm">
+    <div class="form">
+      <div class="form__item">
+        <span>Введіть, будь ласка, ваші дані</span>
+      </div>
+
+      <div class="form__item">
+        <label for="email-field">Електронна пошта</label>
+        <br>
+        <input type="email" class="input-text" id="email-field" placeholder="you@domain.com"
+          autocomplete autofocus required>
+      </div>
+
+      <div class="form__item">
+        <label for="password-field">Пароль</label>
+        <br>
+        <input type="password" class="input-text" id="password-field" required>
+      </div>
+
+      <div class="form__item">
+        <button type="button" class="button <%= window.localStorage.length ? 
+          '' : 'button_disabled' %>" id="enter-button">Увійти</button>
+        <button type="button" class="button <%= window.localStorage.length ? 
+          'button_disabled' : '' %>" id="reg-button">Реєстрація</button>
+        <button type="button" class="button <%= window.localStorage.length ? 
+          '' : 'button_disabled' %>" id="delete-button">Видалити аккаунт</button>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/template" data-name="UserStats">
+    <div class="user-stats-section">
+      <span class="user-stats-item">Всього пройдено білетів - 
+        <span class="scorecard__time"><%= total.quizes %></span>.
+      </span>
+
+      <span class="user-stats-item">Всього правильних відповідей - 
+        <span class="scorecard__correct"><%= total.correct %></span>.
+        <% if (total.questions) { %>
+          Це <span class="scorecard__correct">
+            <%= (total.correct / total.questions * 100).toFixed(2) %>%</span>
+          від загальної кількості.
+        <% } %>
+      </span>
+
+      <span class="user-stats-item">Всього неправильних відповідей - 
+        <span class="scorecard__incorrect"><%= total.incorrect %></span>.
+        <% if (total.questions) { %>
+          Це <span class="scorecard__incorrect">
+            <%= (total.incorrect / total.questions * 100).toFixed(2) %>%</span>
+          від загальної кількості.
+          <% } %>
+      </span>
+
+      <% if (time) { %>
+        <span class="user-stats-item">Білет пройдено в середньому за 
+          <span class="scorecard__time"><%= time %></span>.
+        </span>
+      <% } %>
+    </div>
+
+    <div class="user-stats-section">
+      <span class="user-stats-item">Умовні позначення</span>
+
+      <span class="user-stats-item">
+        <span class="icon-ok-circled2 scorecard__correct"></span>
+        - Питання вирішено вірно
+      </span>
+
+      <span class="user-stats-item">
+        <span class="icon-cancel-circled2 scorecard__incorrect"></span> 
+        - Питання вирішено невірно
+      </span>
+    </div>
+
+    <table class="user-stats-table">
+      <thead>
+        <tr>
+          <th rowspan="2">№ білета</th>
+          <th colspan="20">№ питання</th>
+        </tr>
+        <tr>
+          <% for (var i = 0; i < 20;) { %>
+            <th><%= ++i %></th>
+          <% } %>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (var i = 0, length = (set == 'kyiv' ? 110 : 80); i < length; i++) { %>
+          <tr>
+            <% for (var j = 0; j < 21; j++) { %>
+              <% if (j != 0) { %>
+                <td class="user-stats-cell">
+                  <span class="icon-<%= userData[i] ? (userData[i][j - 1] ? 'ok-circled2 scorecard__correct' : userData[i][j - 1] == false ? 'cancel-circled2 scorecard__incorrect' : '') : ''%>"></span>
+                </td>
+              <% } else { %>
+                <td class="user-stats-cell"><%= i + 1 %></td>
+              <% } %>
+            <% } %>
+          </tr>  
+        <% } %>
+      </tbody>
+    </table>
+  </script>
+
+  <script type="text/template" data-name="SearchResult">
+    <% if (!results.length) { %>
+      <span>На жаль, нічого не знайдено :(</span>
+    <% } %>
+
+    <% results.forEach(function(result) { %>
+      <a class="link" href="#!<%= router.reverse('concrete-quiz', {
+          set: result.set, 
+          number: result.number,
+          id: 1
+        }) %>">
+        <%= result.title %>
+      </a>
+      <hr>
+    <% }); %>
+  </script>
+
+  <script type="text/template" data-name="EditForm">
+    <div>
+      <div class="edit-form__item">
+        <label class="edit-form__title" for="question-field">Питання</label>
+        <textarea class="edit-form__textarea" name="question-field" 
+          id="question-field" cols="100" rows="3"><%= question.question %>
+        </textarea>
+      </div>
+
+      <ol class="edit-form__item edit-form__item_list">
+        <span class="edit-form__title">Відповіді</span>
+      <% question.answers.forEach(function(answer, index) { %>
+        <li class="edit-form__answer">
+          <textarea class="edit-form__textarea edit-form__textarea_answer" 
+            name="answer-field" id="<%= index + 1 %>" cols="100" rows="3"><%= answer %>
+          </textarea>
+        </li>
+      <% }); %>
+      </ol>
+
+      <div class="edit-form__item">
+        <span class="edit-form__title">Правильна відповідь</span>
+        <% for (var i = 0, length = question.answers.length; i < length; i++) { %>
+          <input type="radio" class="input-radio" name="correct" id="<%= 'corr' + (i + 1)%>" 
+            <%= question.correctAnswer == i ? 'checked' : '' %> > 
+          <label class="custom-radio" for="<%= 'corr' + (i + 1)%>"><%= i + 1 %></label>
+        <% } %>
+      </div>
+
+      <button type="button" class="button" id="save-button">Зберегти</button>
+    </div>
+  </script>
+
+  <script type="text/template" data-name="NotFound">
+    <div class="not-found-page">
+      <% if (isQuiz) { %>
+        <img src="images/to-be-continued.jpg" alt="to be continued" width="405" height="204">
+        <span>На жаль, запитуваний тест поки що недоступний.
+          Але він незабаром з'явиться!
+        </span>
+      <% } else { %>
+        <img src="images/wrong-way.jpg" alt="wrong way sign" width="480" height="360">
+        <span>На жаль, сторінку не знайдено</span>
+      <% } %>
+      <a class="link" href="#!/">Повернутись на головну сторінку</a>
+    </div>
+  </script>
+  <!--TEMPLATES END-->
+
+  <script src="scripts/template-generator.js"></script>
+
+  <!--[if lte IE 8]>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/ie8/0.4.1/ie8.js"></script>
+    <script type="text/javascript" src="libraries/seletivizr-min.js"></script>
+    <script type="text/javascript">window.onload = function(){document.body.setAttribute('class', 'ie8');}</script>
+    <script type="text/javascript" src="libraries/for-best-browser.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="container">
+    <header>
+      <nav>
+        <ul class="menu" id="menu">
+          <li class="menu__item menu__item-active"><a href="#!/" class="link menu__item-link">Головна</a></li>
+          <li class="menu__item"><a href="#!/quiz" class="link menu__item-link">Пройти тест</a></li>
+          <li class="menu__item"><a href="#!/enter" class="link menu__item-link" id="enter-link"></a></li>
+          <li class="menu__item">
+            <input type="text" class="input-text" id="search-field" placeholder="Пошук тесту"
+              autocomplete>
+            <a href="#!/search" id="search-link">
+              <img class="search-button" src="images/search.png">
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="mounting-point" id="mounting-point"></main>
+
+    <footer class="footer" id="footer">
+      <span class="footer__author">2017 Олександр Харченко</span>
+    </footer>
+  </div>
+  
+  <script src="scripts/router.js"></script>
+  <script src="scripts/dist/main.min.js"></script>
+</body>
+</html>

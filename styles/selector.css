@@ -1,0 +1,18 @@
+.selector-title {
+  display: block;
+  font-weight: 700;
+}
+
+.selector-options {
+  width: 10em;
+  border: 2px solid darkorange;
+  padding: .25em .25em;
+}
+
+.selector-options:focus {
+  outline: none;
+}
+
+.options-container {
+  margin-top: 1em;
+}

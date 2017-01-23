@@ -1,0 +1,70 @@
+.carousel {
+  position: relative;
+  top: -.5em;
+  left: -1em;
+}
+
+.slide a {
+  position: relative;
+  font-size: 0;
+}
+
+.slide_kyiv,
+.slide_kharkiv {
+  display: block;
+}
+
+.slide_kyiv {
+  background-image: url(../../images/carousel/kyiv.JPG);
+  background-size: cover;
+}
+
+.slide_kharkiv {
+  background-image: url(../../images/carousel/kharkiv.jpg);
+  background-size: cover;
+}
+
+.prev, 
+.next {
+  position: absolute;
+  top: 50%;
+  margin-top: -252px;
+  border: none;
+  padding: 0 1em;
+  height: 100%;
+  font-weight: bold;
+  font-size: 32px;
+  color: whitesmoke;
+  background-color: transparent;
+  cursor: pointer;
+  transition: .5s ease;
+}
+
+.next {
+  right: -1em;
+}
+
+.prev:focus, 
+.next:focus {
+  outline: none;
+}
+
+.prev:hover, 
+.next:hover {
+  background-color: rgba(255,255,255,0.25);
+}
+
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .5} 
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .5} 
+  to {opacity: 1}
+}

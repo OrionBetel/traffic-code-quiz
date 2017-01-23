@@ -1,0 +1,107 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: #222;
+  background-image: url(../../images/asphalt.jpg);
+  background-attachment: fixed;
+  background-repeat: repeat;
+  overflow-y: scroll;
+}
+
+.container {
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+.mounting-point {
+  display: block;
+  margin-bottom: 1em;
+  border: 8px solid dodgerblue;
+  border-radius: 16px;
+  padding: .5em 1em;
+  background-color: whitesmoke;
+}
+
+.link {
+  color: royalblue;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.link:visited {
+  color: royalblue; 
+}
+
+.link:hover {
+  background-color: yellow;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+.custom-radio {
+  position: relative;
+  margin-left: 1em;
+  margin-right: 1em;
+  padding-left: .5em;
+}
+
+.custom-radio:hover {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.custom-radio:before,
+.custom-radio::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -16px;
+  display: inline-block;
+  width: 1.25em;
+  height: 1.25em;
+  border: 2px solid darkorange;
+  border-radius: 50%;
+  background-color: whitesmoke;
+}
+
+.input-radio:checked + .custom-radio:after,
+.input-radio:checked + .custom-radio::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: -12px;
+  display: inline-block;
+  width: .75em;
+  height: .75em;
+  border-radius: 50%;
+  background-color: darkorange;
+}
+
+.input-text {
+  border: 2px solid lightskyblue;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.input-text:focus {
+  outline: none;
+}
+
+.input-text::-webkit-input-placeholder,
+.input-text::-moz-input-placeholder,
+.input-text::-ms-input-placeholder,
+.input-text:-ms-input-placeholder,
+.input-text::placeholder {
+  text-transform: uppercase;
+}

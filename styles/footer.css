@@ -1,0 +1,12 @@
+.footer {
+  position: relative;
+  background-color: whitesmoke;
+  border: 8px solid dodgerblue;
+  border-radius: 16px;
+}
+
+.footer__author {
+  display: block;
+  padding: 1em 0;
+  text-align: center;
+}

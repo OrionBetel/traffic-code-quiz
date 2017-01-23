@@ -1,0 +1,39 @@
+.button {
+  position: relative;
+  background-color: #333;
+  border: none;
+  border-radius: 8px;
+  padding: .5em 1em;
+  color: darkorange;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.button:hover {
+  cursor: pointer;
+  text-shadow: 0 0 4px darkorange;
+}
+
+.button:focus {
+  outline: none;
+}
+
+.button:active {
+  top: 2px;
+  left: 1px;
+}
+
+.button_check {
+  margin-right: .5em;
+}
+
+.button_disabled {
+  color: darkslategrey;
+  background-color: grey;
+}
+
+.button_disabled:hover {
+  top: 0;
+  left: 0;
+  text-shadow: none;
+}

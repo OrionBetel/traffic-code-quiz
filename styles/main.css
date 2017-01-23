@@ -1,0 +1,13 @@
+.promo {
+  margin-top: .5em;
+  font-family: 'Ruslan Display', 'Roboto', Arial, Helvetica, sans-serif;
+  font-size: 3em;
+  line-height: 1.25;
+  color: #444;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.home-page-paragraph {
+  text-align: justify;
+}

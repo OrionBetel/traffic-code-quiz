@@ -1,0 +1,38 @@
+.user-stats-section {
+  margin-bottom: 1em;
+}
+
+.user-stats-item {
+  display: block;
+}
+
+.icon-ok-circled2,
+.icon-cancel-circled2 {
+  font-size: 1.5em;
+}
+
+.user-stats-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user-stats-table tbody tr:nth-child(2n) {
+  background-color: #e3e3e3;
+}
+
+.user-stats-table th,
+.user-stats-table td {
+  border: 1px solid black;
+}
+
+.user-stats-cell {
+  text-align: center;
+  font-weight: 700;
+}
+
+.user-stats-cell:hover,
+.user-stats-cell:first-child:hover ~ .user-stats-cell {
+  background-color: yellow;
+}
+
+ 

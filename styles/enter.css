@@ -1,0 +1,8 @@
+.form__item {
+  margin-bottom: 1.5em;
+}
+
+.alert {
+  position: absolute;
+  color: red;
+}
