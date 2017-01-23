@@ -18,5 +18,9 @@
   },
   "browsersList": [
     "> 0%"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OrionBetel/traffic-code-quiz.git"
+  }
 }
