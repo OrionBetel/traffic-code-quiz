@@ -1,0 +1,144 @@
+@media (max-width: 768px) {
+  /*COMMON START*/
+  .mounting-point *:not(p),
+  #user-stats.menu__item,
+  a {
+    font-size: 20px;
+    line-height: 1.5;
+  }
+  /*COMMON END*/
+
+
+  /*MENU START*/
+  .menu__item {
+    margin-bottom: 1em;
+  }
+
+  input.input-text {
+    padding: 8px 16px;
+  }
+
+  #search-field {
+    position: relative;
+    top: -6px;
+  }
+
+  .search-button {
+    top: -4px;
+    width: 30px;
+    height: 30px;
+  }
+  /*MENU END*/
+
+
+  /*BREADCRUMBS START*/
+  .breadcrumb:not(:last-child)::after,
+  .breadcrumb:not(:last-child):after {
+    top: -16px;
+    right: -24px;
+  }
+   /*BREADCRUMBS END*/
+
+
+   /*HOME START*/
+  .mounting-point .promo {
+    font-size: 48px;
+  }
+
+  .mounting-point p {
+    line-height: 2;
+  }
+
+  .carousel {
+    top: -8px;
+    left: -16px;
+  }
+
+  .next,
+  .prev {
+    padding: 0 2em;
+  }
+
+  .next {
+    right: -35px;
+  }
+  /*HOME END*/
+
+
+  /*QUIZ START*/
+  .custom-radio::before, 
+  .custom-radio:before {
+    top: -2px;
+    left: -20px;
+  }
+
+  .input-radio:checked+.custom-radio::after, 
+  .input-radio:checked+.custom-radio:after {
+    top: 3px;
+    left: -15px;
+  }
+
+  .button#random-quiz {
+    display: block;
+    margin-bottom: 1em;
+  }
+
+  .questions-list .questions-list__link {
+    line-height: 36px;
+  }
+
+  #options .custom-radio_image::before, 
+  #options .custom-radio_image:before {
+    top: 24px; 
+    margin-left: -10px;
+  }
+
+  #options .input-radio:checked + .custom-radio_image::after, 
+  #options .input-radio:checked + .custom-radio_image:after {
+    left: 47%;
+    top: 29px;
+  }
+
+  .questions-list__item {
+    margin-right: 1em;
+    margin-bottom: .5em;
+  }
+
+  .custom-radio_image {
+    margin-right: 0;
+  }
+  /*QUIZ END*/
+
+
+  /*STATS START*/
+  span.icon-cancel-circled2,
+  span.icon-ok-circled2 {
+    font-size: 1.25em; 
+  }
+
+  .user-stats-table th, 
+  .user-stats-table td {
+    font-size: 12px;
+  }
+  /*STATS END*/
+
+
+  /*EDIT START*/
+  .edit-form__textarea,
+  .edit-form__textarea_answer {
+    width: 100%;
+    font-size: .75em;
+  }
+
+  .edit-form__answer::after,
+  .edit-form__answer:after {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .edit-form__answer::before, 
+  .edit-form__answer:before {
+    margin-top: -50px;
+  }
+  /*EDIT END*/
+}

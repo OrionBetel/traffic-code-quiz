@@ -31,5 +31,5 @@ gulp.task('router-minify', function() {
 });
 
 gulp.task('watch', function () {
-  gulp.watch('styles/*.css', ['css']);
+  gulp.watch(['styles/*.css'], ['css']);
 });

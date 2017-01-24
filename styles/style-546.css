@@ -1,0 +1,65 @@
+@media (max-width: 546px) {
+  /*MENU START*/
+  .menu.menu__button {
+    margin: 0 auto;
+    margin-bottom: none;
+    font-size: 20px;
+    color: dodgerblue;
+    text-transform: uppercase;
+  }
+  
+  .menu__item {
+    display: block;
+  }
+
+  .menu .menu__item:after,
+  .menu .menu__item::after {
+    display: none;
+  }
+
+  .search-button {
+    right: 146px;
+  }
+
+  .menu-stats {
+    left: 50%;
+    margin-left: -136px;
+  }
+  /*MENU END*/
+
+  /*QUIZ START*/
+  .custom-radio,
+  .button {
+    display: block;
+    margin-bottom: 1em;
+  }
+
+  .button#start {
+    display: inline-block;
+  }
+
+  .selector-options {
+    margin-bottom: 1em;
+  }
+
+  #mounting-point #options .input-radio:checked + .custom-radio_image::after, 
+  #mounting-point #options .input-radio:checked + .custom-radio_image:after {
+    left: 49.5%;
+  }
+  /*QUIZ END*/
+
+
+  /*STATS START*/
+  .mounting-point .user-stats-table th, 
+  .mounting-point .user-stats-table td {
+    font-size: 10px;
+  }
+  /*STATS END*/
+
+
+  /*EDIT START*/
+  .edit-form__item .custom-radio {
+    display: inline-block;
+  }
+  /*EDIT END*/
+}

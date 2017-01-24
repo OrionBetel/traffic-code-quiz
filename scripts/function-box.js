@@ -11,6 +11,25 @@ FunctionBox.clearContent = function() {
   }
 };
 
+FunctionBox.collapseMenu = function() {
+  var menu = document.getElementById('menu');
+
+  if (window.innerWidth <= 546) {
+    menu.setAttribute('hidden', true);
+    var menuButton = document.createElement('div');
+    menuButton.innerHTML = 'Меню';
+    menuButton.className = 'menu menu__item menu__button';
+    menuButton.addEventListener('click', function() {
+      if (menu.hasAttribute('hidden')) {
+        menu.removeAttribute('hidden');
+      } else {
+        menu.setAttribute('hidden', true);
+      }
+    });
+    menu.parentElement.insertBefore(menuButton, menu);
+  }
+};
+
 FunctionBox.initializeClock = function(id, endtime) {
   var clock = document.getElementById(id);
   var minutesSpan = clock.querySelector('#minutes');
@@ -48,10 +67,15 @@ FunctionBox.initializeClock = function(id, endtime) {
 
 FunctionBox.indicateCurrentLocation = function() {
   var activeItem = document.querySelector('.menu__item-active');
-  if (activeItem) {
-    activeItem.className = 'menu__item';
+  
+  if (activeItem && activeItem.className.indexOf('link') != -1) {
+    activeItem.className = 'link menu__item';
+  } else {
+    if (activeItem) {
+      activeItem.className = 'menu__item';
+    }
   }
-
+  
   var hash = window.location.hash;
   var hashPart = hash.split('/')[1];
 
@@ -244,6 +268,7 @@ FunctionBox.renderCarousel = function() {
     button.setAttribute('type', 'button');
     button.innerHTML = '&#1009' + (i ? 5 : 4) + ';';
     button.className = i ? 'next' : 'prev';
+    button.style.marginTop = '-' + (mountingPoint.clientWidth / 4) + 'px';
     button.setAttribute('onclick', 'FunctionBox.changeSlide()');
     carousel.appendChild(button);
   }
@@ -785,7 +810,7 @@ FunctionBox.insertUserStatsLink = function() {
 
     for (var i = 0; i < 2; i++) {
       var li = document.createElement('li');
-      li.className = 'menu__item-stats'
+      li.className = 'link menu__item-stats';
       var a = document.createElement('a');
       a.innerHTML = i ? 'АВ Харків 14-те видання' : 'AB Київ 5-те видання';
       a.href = i ? '#!/userstats/kharkiv' : '#!/userstats/kyiv';

@@ -15,6 +15,7 @@ router.route('home', '/', function() {
   }
   FunctionBox.attachSearchListener();
   FunctionBox.toggleEditLink();
+  FunctionBox.collapseMenu();
 });
 
 router.route('quiz', '/quiz', function() {
