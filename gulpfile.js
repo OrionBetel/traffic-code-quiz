@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var concat = require('gulp-concat');
+var rename = require('gulp-rename');
 
 var autoprefixer = require('gulp-autoprefixer'); 
 var cleanCSS = require('gulp-clean-css');
@@ -20,6 +21,13 @@ gulp.task('js', function() {
     .pipe(concat('main.min.js'))
     .pipe(uglify())
     .pipe(gulp.dest('scripts/dist/'));
+});
+
+gulp.task('router-minify', function() {
+  return gulp.src('scripts/router.js')
+    .pipe(uglify())
+    .pipe(rename('router.min.js'))
+    .pipe(gulp.dest('scripts/dist'));
 });
 
 gulp.task('watch', function () {
