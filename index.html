@@ -91,12 +91,12 @@
   <script type="text/template" data-name="Scorecard">
     <div class="scorecard__item">
       Правильних відповідей: <span class="scorecard__correct"><%= userAnswers.correct %></span>.
-      Це <span class="scorecard__correct"><%= userAnswers.correct / userAnswers.total * 100 %></span>% від всіх відповідей.
+      Це <span class="scorecard__correct"><%= (userAnswers.correct / userAnswers.total * 100).toFixed(2) %></span>% від всіх відповідей.
     </div>
     <div class="scorecard__item">
       Неправильних відповідей:
       <span class="scorecard__incorrect"><%= userAnswers.incorrect %></span>.
-      Це <span class="scorecard__incorrect"><%= userAnswers.incorrect / userAnswers.total * 100 %></span>% від всіх відповідей.
+      Це <span class="scorecard__incorrect"><%= (userAnswers.incorrect / userAnswers.total * 100).toFixed(2) %></span>% від всіх відповідей.
     </div>
     <% if (userAnswers.time != '19:60') { %>
       <div class="scorecard__item">

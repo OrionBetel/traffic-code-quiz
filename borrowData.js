@@ -2,7 +2,7 @@ var box = [];
 
 var qn = 0;
 
-function b() {
+function b(set, number) {
   var o = {};
   
   o.questionNumber = ++qn;
@@ -15,7 +15,8 @@ function b() {
   if (imageContainer) {
     var images = imageContainer.children;
     for (var i = 0, length = images.length; i < length; i++) {
-      o.answers.push('images/kyiv/' + 1 + '/' + images[i].children[0].firstElementChild.src.slice(-9));
+      o.answers.push('images/' + set + '/' + number + '/'
+       + images[i].children[0].firstElementChild.src.slice(-9));
 
       if (images[i].classList.contains('correct')) {
         o.correctAnswer = images[i].children[0].children[1].value - 1;
@@ -35,10 +36,9 @@ function b() {
 
   var imageQuestion = document.querySelector('.title-img-container');
   if (imageQuestion) {
-    o.image = 'images/kyiv/' + 1 + '/' + imageQuestion.children[0].src.slice(-6);
+    o.image = 'images/' + set + '/' + number + '/'
+     + imageQuestion.children[0].src.slice(-6);
   }
 
   box.push(o);
 }
-
-b();
