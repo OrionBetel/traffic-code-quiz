@@ -1085,7 +1085,7 @@ FunctionBox.saveChanges = function() {
 
   var xhr = new XMLHttpRequest();
 
-  xhr.open('POST', '../server.js');
+  xhr.open('POST', '../saver.js');
 
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4 && xhr.status == 200) {
