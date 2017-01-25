@@ -4,9 +4,9 @@ var FunctionBox = {};
 FunctionBox.clearContent = function() {
   for (var i = 0, length = arguments.length; i < length; i++) {
     if (typeof arguments[i] == 'string') {
-      document.getElementById(arguments[0]).innerHTML = '';
+      document.getElementById(arguments[i]).innerHTML = '';
     } else {
-      arguments[0].innerHTML = '';
+      arguments[i].innerHTML = '';
     }
   }
 };
@@ -530,7 +530,8 @@ FunctionBox.renderQuiz = function(set, number, id) {
 
       document.getElementById('question').innerHTML = Templates.Question({
         router: router,
-        question: quiz[0]
+        question: quiz[0],
+        isShowResultsButton: false
       });
 
       FunctionBox.indicateCurrentQuestion();
@@ -636,10 +637,11 @@ FunctionBox.stopQuiz = function() {
       question.removeChild(question.lastElementChild);
     }
     var showResultButton = document.createElement('a');
+    showResultButton.id = 'show-results-button';
     showResultButton.className = 'button';
     showResultButton.innerHTML = 'Переглянути результат';
     showResultButton.href = '#!' + router.reverse('scorecard');
-    question.appendChild(showResultButton);
+    mountingPoint.appendChild(showResultButton);
   }
 };
 // QUIZ END
@@ -794,6 +796,34 @@ FunctionBox.showAlert = function(anchor) {
 
 
 // USER STATS START
+FunctionBox.countTotal = function(data) {
+  var total = {};
+
+  total.quizes = data.reduce(function(prev, curr) {
+    return prev + curr.length == 20 ? 1 : 0
+  }, 0);
+
+  total.questions = data.reduce(function(prev, curr) {
+    return prev + curr.reduce(function(prev, curr) {
+      return prev + (curr != null ? 1 : 0);
+    }, 0);
+  }, 0);
+
+  total.correct = data.reduce(function(prev, curr) {
+    return prev + curr.reduce(function(prev, curr) {
+      return prev + (curr ? 1 : 0)
+    }, 0);
+  }, 0);
+
+  total.incorrect = data.reduce(function(prev, curr) {
+    return prev + curr.reduce(function(prev, curr) {
+      return prev + (curr == false ? 1 : 0)
+    }, 0);
+  }, 0);
+
+  return total;
+};
+
 FunctionBox.insertUserStatsLink = function() {
   var userStats = document.createElement('li');
   userStats.id = 'user-stats';
@@ -828,34 +858,6 @@ FunctionBox.insertUserStatsLink = function() {
 
   var menu = document.getElementById('menu');
   menu.insertBefore(userStats, menu.children[2]); 
-};
-
-FunctionBox.countTotal = function(data) {
-  var total = {};
-
-  total.quizes = data.reduce(function(prev, curr) {
-    return prev + curr.length == 20 ? 1 : 0
-  }, 0);
-
-  total.questions = data.reduce(function(prev, curr) {
-    return prev + curr.reduce(function(prev, curr) {
-      return prev + (curr != null ? 1 : 0);
-    }, 0);
-  }, 0);
-
-  total.correct = data.reduce(function(prev, curr) {
-    return prev + curr.reduce(function(prev, curr) {
-      return prev + (curr ? 1 : 0)
-    }, 0);
-  }, 0);
-
-  total.incorrect = data.reduce(function(prev, curr) {
-    return prev + curr.reduce(function(prev, curr) {
-      return prev + (curr == false ? 1 : 0)
-    }, 0);
-  }, 0);
-
-  return total;
 };
 
 FunctionBox.prepareUserStats = function(set) {
@@ -991,40 +993,6 @@ FunctionBox.findTest = function() {
 
 
 // EDIT START
-FunctionBox.toggleEditLink = function() {
-  var menu = document.getElementById('menu');
-  var edit = document.getElementById('edit');
-
-  if (edit) return;
-
-  if (!window.sessionStorage.length && edit) {
-    menu.removeChild(edit.parentElement);
-  };
-
-  for (var key in window.sessionStorage) {
-    if (key == 'length' || (window.sessionStorage.hasOwnProperty && !window.sessionStorage.hasOwnProperty(key))) {
-      continue;
-    }
-
-    var userMail = key;
-  }
-
-  if (userMail == "sandrokharchenko@gmail.com" && JSON.parse(sessionStorage[userMail]).password == '0pen$e$@me') {
-    var editLink = document.createElement('a');
-    editLink.innerHTML = 'Редагувати тести';
-    editLink.id = 'edit';
-    editLink.href = '#!/edit';
-    editLink.className = 'link';
-
-    var editMenuItem = document.createElement('li');
-    editMenuItem.className = 'menu__item';
-    editMenuItem.appendChild(editLink);
-
-    var menu = document.getElementById('menu');
-    menu.insertBefore(editMenuItem, menu.children[3]);
-  };
-};
-
 FunctionBox.renderQuizEditor = function(set, number, id) {
   var xhr = new XMLHttpRequest();
 
@@ -1099,5 +1067,39 @@ FunctionBox.saveChanges = function() {
   }
 
   xhr.send(JSON.stringify(changedQuizItem));
+};
+
+FunctionBox.toggleEditLink = function() {
+  var menu = document.getElementById('menu');
+  var edit = document.getElementById('edit');
+
+  if (edit) return;
+
+  if (!window.sessionStorage.length && edit) {
+    menu.removeChild(edit.parentElement);
+  };
+
+  for (var key in window.sessionStorage) {
+    if (key == 'length' || (window.sessionStorage.hasOwnProperty && !window.sessionStorage.hasOwnProperty(key))) {
+      continue;
+    }
+
+    var userMail = key;
+  }
+
+  if (userMail == "sandrokharchenko@gmail.com" && JSON.parse(sessionStorage[userMail]).password == '0pen$e$@me') {
+    var editLink = document.createElement('a');
+    editLink.innerHTML = 'Редагувати тести';
+    editLink.id = 'edit';
+    editLink.href = '#!/edit';
+    editLink.className = 'link';
+
+    var editMenuItem = document.createElement('li');
+    editMenuItem.className = 'menu__item';
+    editMenuItem.appendChild(editLink);
+
+    var menu = document.getElementById('menu');
+    menu.insertBefore(editMenuItem, menu.children[3]);
+  };
 };
 // EDIT END

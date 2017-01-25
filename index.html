@@ -85,7 +85,9 @@
       <% }); %>
     </div>
     <br>
-    <button type="button" class="button" id="skipButton">Пропустити</button>
+    <% if (!isShowResultsButton) { %>
+      <button type="button" class="button" id="skipButton">Пропустити</button>
+    <% } %>
   </script>
 
   <script type="text/template" data-name="Scorecard">

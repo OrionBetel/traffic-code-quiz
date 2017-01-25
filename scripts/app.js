@@ -31,16 +31,20 @@ router.route('quiz-preset', '/quiz/:set', function(set) {
 
 router.route('concrete-quiz', '/quiz/:set/:number/:id', function(set, number, id) {
   var question = document.getElementById('question');
+  var isShowResultsButton = document.getElementById('show-results-button') ? true : false;
   if (id > 1 || question) {
     question.innerHTML = Templates.Question({
       router: router,
-      question: quiz[id - 1]
+      question: quiz[id - 1],
+      isShowResultsButton: isShowResultsButton
     });
 
     FunctionBox.indicateCurrentQuestion();
 
-    document.getElementById('skipButton').addEventListener('click', 
-      FunctionBox.proceedToNextQuestion);
+    var skipButton =  document.getElementById('skipButton');
+    if (skipButton) {
+      skipButton.addEventListener('click', FunctionBox.proceedToNextQuestion);
+    }
 
     FunctionBox.markOptions(id);
   } else {
