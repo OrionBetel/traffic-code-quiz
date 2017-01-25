@@ -209,7 +209,34 @@ FunctionBox.stickFooter = function() {
   if (checkedHeigth > footer.offsetHeight) {
     footer.style.top = checkedHeigth - footer.offsetHeight + 'px';
   } 
-}
+};
+
+FunctionBox.stickMenu = function() {
+   if (window.navigator.appName.indexOf("Internet Explorer") == -1) {
+    var container = document.querySelector('.container');
+    var header = document.getElementById('header');
+
+    header.className = 'menu_fixed';
+    resizeMenu();
+    
+    window.onresize = function() {
+      resizeMenu();
+    };
+
+
+    function getStyle(elem) {
+      return window.getComputedStyle ? getComputedStyle(elem, "") : elem.currentStyle;
+    }
+
+    var resizeMenu = function() {
+      header.style.width = getStyle(container).width;
+      header.nextElementSibling.style.marginTop = header.offsetHeight + 'px';
+      if (document.getElementById('breadcrumbs')) {
+        mountingPoint.style.marginTop = 0;
+      }
+    };
+  }
+};
 // COMMON END
 
 
