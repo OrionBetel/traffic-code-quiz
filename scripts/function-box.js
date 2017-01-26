@@ -14,9 +14,10 @@ FunctionBox.clearContent = function() {
 FunctionBox.collapseMenu = function() {
   var menu = document.getElementById('menu');
 
-  if (window.innerWidth <= 546) {
+  if (window.innerWidth <= 546 && !document.getElementById('menu-expand-button')) {
     menu.setAttribute('hidden', true);
     var menuButton = document.createElement('div');
+    menuButton.id = 'menu-expand-button';
     menuButton.innerHTML = 'Меню';
     menuButton.className = 'menu menu__item menu__button';
     menuButton.addEventListener('click', function() {
@@ -24,9 +25,11 @@ FunctionBox.collapseMenu = function() {
         menu.removeAttribute('hidden');
       } else {
         menu.setAttribute('hidden', true);
+        FunctionBox.stickMenu();
       }
     });
-    menu.parentElement.insertBefore(menuButton, menu);
+    document.getElementById('header').insertBefore(menuButton, document.getElementById('nav'));
+    FunctionBox.stickMenu();
   }
 };
 
@@ -216,17 +219,9 @@ FunctionBox.stickMenu = function() {
     var container = document.querySelector('.container');
     var header = document.getElementById('header');
 
-    header.className = 'menu_fixed';
-    resizeMenu();
-    
-    window.onresize = function() {
-      resizeMenu();
-    };
-
-
-    function getStyle(elem) {
+    var getStyle = function(elem) {
       return window.getComputedStyle ? getComputedStyle(elem, "") : elem.currentStyle;
-    }
+    };
 
     var resizeMenu = function() {
       header.style.width = getStyle(container).width;
@@ -234,6 +229,14 @@ FunctionBox.stickMenu = function() {
       if (document.getElementById('breadcrumbs')) {
         mountingPoint.style.marginTop = 0;
       }
+    }
+
+    header.className = 'menu_fixed';
+    resizeMenu();
+    
+    window.onresize = function() {
+      resizeMenu();
+      FunctionBox.collapseMenu();
     };
   }
 };

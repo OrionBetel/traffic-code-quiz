@@ -6,7 +6,6 @@ var givenTime = null;
 
 router.route('home', '/', function() {
   FunctionBox.renderMenuAndFooter(true);
-  FunctionBox.stickMenu();
   FunctionBox.clearContent(mountingPoint);
   FunctionBox.renderEnterLinkTitle();
   FunctionBox.renderCarousel();
@@ -16,6 +15,7 @@ router.route('home', '/', function() {
   }
   FunctionBox.attachSearchListener();
   FunctionBox.toggleEditLink();
+  FunctionBox.stickMenu();
   FunctionBox.collapseMenu();
 });
 
@@ -128,29 +128,8 @@ window.addEventListener('hashchange', function() {
   FunctionBox.renderEnterLinkTitle();
   FunctionBox.renderBreadcrumbs(hash);
   FunctionBox.indicateCurrentLocation();
+  FunctionBox.stickMenu();
   setTimeout(function() {
     FunctionBox.stickFooter();
   }, 32);
-  FunctionBox.stickMenu();
 }, false);
-
-// window.addEventListener('DOMContentLoaded', function() {
-//   var container = document.querySelector('.container');
-//   var header = document.getElementById('header');
-  
-//   var resizeMenu = function() {
-//     header.style.width = getComputedStyle(container).width;
-//     header.nextElementSibling.style.marginTop = header.offsetHeight + 'px';
-//     if (document.getElementById('breadcrumbs')) {
-//       mountingPoint.style.marginTop = 0;
-//     }
-//   };
-
-//   header.className = 'menu_fixed';
-//   resizeMenu();
-  
-//   window.onresize = function() {
-//     resizeMenu();
-//   }
-  
-// });
