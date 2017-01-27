@@ -4,8 +4,9 @@ var changedQuizItem = null;
 var quiz = null;
 
 req.on('data', function(data) {
+  console.log('got data');
   changedQuizItem = JSON.parse(data);
-  var filePath = 'C:/Users/Alexander/Desktop/quiz-system 2/scripts/database/' 
+  var filePath = 'C:/Users/Alexander/Desktop/traffic-code-quiz/scripts/database/' 
     + changedQuizItem.set + '/' + changedQuizItem.id + '.json';
 
   fs.readFile(filePath, 'utf8', function(error, data) {

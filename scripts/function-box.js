@@ -1089,10 +1089,6 @@ FunctionBox.saveChanges = function() {
     if (xhr.readyState == 4 && xhr.status == 200) {
       alert(xhr.responseText);
       FunctionBox.proceedToNextQuestion();
-    } else {
-      if (xhr.readyState == 4) {
-        alert('Сталася помилка\nДані не збережено');
-      }
     }
   }
 
